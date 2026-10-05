@@ -26,7 +26,7 @@ package mcu_soc_pkg;
   
 
   localparam int unsigned NumManagers     = 3;
-  localparam int unsigned NumSubordinates = 7;
+  localparam int unsigned NumSubordinates = 8;
 
   typedef enum int {
     XbarSbrMem   = 0,
@@ -35,7 +35,8 @@ package mcu_soc_pkg;
     XbarSbrTimer = 3,
     XbarSbrSpi   = 4,
     XbarSbrBoot  = 5,
-    XbarSbrDbg   = 6
+    XbarSbrDbg   = 6,
+    XbarSbrI2C   = 7
   } xbar_sub_e;
 
   typedef enum int {
@@ -48,8 +49,8 @@ package mcu_soc_pkg;
   // Xbar & Obi config
   localparam obi_pkg::xbar_cfg_t xbar_cfg = obi_pkg::xbar_default_cfg(NumManagers, NumSubordinates, AddrWidth, DataWidth, IdWidth);
 
-  localparam bit unsigned [xbar_cfg.Subordinates-1:0] UseSrFifoMask = 7'b1111111;
-  localparam int unsigned SrFifoDepth [xbar_cfg.Subordinates] = '{4, 4, 4, 4, 4, 4, 4};
+  localparam bit unsigned [xbar_cfg.Subordinates-1:0] UseSrFifoMask = 8'b11111111;
+  localparam int unsigned SrFifoDepth [xbar_cfg.Subordinates] = '{4, 4, 4, 4, 4, 4, 4, 4};
 
   typedef struct packed {
         logic [xbar_cfg.IdWidth-1:0]          obi_aid;
@@ -100,7 +101,7 @@ package mcu_soc_pkg;
       '{idx: XbarSbrDbg,   base: 32'h0000_0000, mask: 32'hfff4_0000}
   };*/
 
-  `TYPEDEF_XBAR_CONNECTIVITY(Connectivity, NumSubordinates, NumManagers, {{7'b1111111}, {7'b1111111}, {7'b1111111}});
+  `TYPEDEF_XBAR_CONNECTIVITY(Connectivity, NumSubordinates, NumManagers, {{8'b11111111}, {8'b11111111}, {8'b11111111}});
 
   typedef struct packed {
     bit [ 3:0] version;

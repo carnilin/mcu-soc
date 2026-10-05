@@ -95,6 +95,7 @@ module mcu_soc import mcu_soc_pkg::*; #(
   assign address_map[4] = '{idx: 4,   base: 32'h2000_0000, mask: 32'hffff_f200};
   assign address_map[5] = '{idx: 5,   base: McuBootAddr,   mask: 32'hffff_f000};
   assign address_map[6] = '{idx: 6,   base: 32'h0000_0000, mask: 32'hfff4_0000};
+  assign address_map[7] = '{idx: 7,   base: 32'hA000_0000, mask: 32'hffff_f200};
 
   rvj1_obi #(
     .BootAddr (McuBootAddr),
@@ -319,6 +320,24 @@ module mcu_soc import mcu_soc_pkg::*; #(
 
     .tx_o        (tx)
   );
+
+  assign obi_r_chans_sub[XbarSbrI2C].obi_rid = '0;
+  obi_i2c obi_i2c_inst (
+      .clk_i  (clk),
+      .rstn_i (hwsw_rstn),
+
+      .obi_areq_i   (obi_a_chans_sub[XbarSbrI2C].obi_areq),
+      .obi_agnt_o   (obi_agnt_signals_sub[XbarSbrI2C]),
+      .obi_aaddr_i  (obi_a_chans_sub[XbarSbrI2C].obi_aadr),
+      .obi_awdata_i (obi_a_chans_sub[XbarSbrI2C].obi_awdata),
+      .obi_awe_i    (obi_a_chans_sub[XbarSbrI2C].obi_awe),
+      .obi_abe_i    (obi_a_chans_sub[XbarSbrI2C].obi_abe),
+
+      .obi_rvalid_o (obi_r_chans_sub[XbarSbrI2C].obi_rvalid),
+      .obi_rready_i (obi_rready_signals_sub[XbarSbrI2C]),
+      .obi_rdata_o  (obi_r_chans_sub[XbarSbrI2C].obi_rdata),
+      .obi_rerr_o   (obi_r_chans_sub[XbarSbrI2C].obi_rerr)
+   );
 
    assign obi_r_chans_sub[XbarSbrGpio].obi_rid = '0;
    obi_gpio #(
