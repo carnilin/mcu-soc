@@ -13,7 +13,7 @@ dependencies:
   obi_uart:        { git: "https://github.com/RatkoFri/obi_uart.git",           rev: 7f9d35d }
   obi-spi:         { git: "https://github.com/carotium/obi-spi.git",        version: 0.1.0   }
   obi-rom:         { git: "https://github.com/carotium/boot-rom.git",       version: 0.0.3   }
-  obi-i2c:         { git: "https://github.com/carnilin/obi-i2c.git",            rev: e40a257 }
+  obi-i2c:         { git: "https://github.com/carnilin/obi-i2c.git",            rev: 75815fc }
 
 sources:
     - rtl/mcu_soc_pkg.sv
